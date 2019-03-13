@@ -1,22 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/langLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src=""/>
+
+    <TextView
+            android:id="@+id/blankspace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/langLogo"/>
+
+    <Button
+            android:id="@+id/nb_0"
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/blankspace"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/nb_1"
+            app:layout_constraintBottom_toTopOf="@id/nb_2"/>
+
+    <Button
+            android:id="@+id/nb_1"
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/blankspace"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/nb_0"
+            app:layout_constraintBottom_toTopOf="@id/nb_3"/>
+
+    <Button
+            android:id="@+id/nb_2"
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/nb_0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf=" @id/nb_3"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <Button
+            android:id="@+id/nb_3"
+            android:layout_width="139dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/nb_1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/nb_2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
             android:id="@+id/pseudoDisplay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    <TextView
-            android:id="@+id/levelDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     <TextView
             android:id="@+id/pointsDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:id="@+id/levelDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
