@@ -41,6 +41,8 @@ fun subscribeOrConnect(ctx: Context) {
                 conn.close()
                 //ALREADY EXISTS
             }
+        } else {
+            //CONNECTION FAILED
         }
     } catch(e : Exception) {
         e.printStackTrace()
@@ -53,6 +55,21 @@ fun nextLevel(ctx: Context) {
 
         if (conn != null) {
 
+            val regex = "^[0-9]+$".toRegex()
+            val newLevel = ctx.pathParam("Level")
+            val pseudo = ctx.queryParam("Pseudo")
+
+            if(!pseudo.isNullOrEmpty()){
+                var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
+                val insert = conn.prepareStatement(insertRequest)
+                insert.executeUpdate()
+                conn.close()
+            } else {
+                //PSEUDO WAS NULL
+            }
+
+        } else {
+            //CONNECTION FAILED
         }
 
     } catch(e : Exception) {

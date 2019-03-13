@@ -26,11 +26,11 @@ fun main(list: Array<String>){
             put(::subscribeOrConnect)
         }
         // the player pass a level
-        path("/pass_level/:new_level") {
+        path("/nextLevel/:Level") {
             post{::nextLevel}
         }
         // the player ask for more logo
-        path("/more_logo/:curent_level") {
+        path("/getMoreLogo/:Level") {
             get(::getMoreLogo)
         }
         // the player ask for the rules
