@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import kotlinx.android.synthetic.main.main_activity.*
 
 class GuessTheLanguage: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,7 @@ class GuessTheLanguage: Activity() {
 
     fun launchGame() {
         val intent = Intent(this, Game::class.java)
+        intent.putExtra("Pseudo", pseudoInput.text.toString())
         startActivity(intent)
     }
 
