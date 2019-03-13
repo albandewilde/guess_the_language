@@ -1,9 +1,12 @@
 package utils
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 
-fun main(list: Array<String>){
+fun main(){
 
     val serv = Javalin.create()
         // all static request point to the `project_folder`/src/main/resources/public folder
@@ -26,11 +29,11 @@ fun main(list: Array<String>){
             put(::subscribeOrConnect)
         }
         // the player pass a level
-        path("/nextLevel/:Level") {
+        path("/next_level/:level") {
             post{::nextLevel}
         }
         // the player ask for more logo
-        path("/getMoreLogo/:Level") {
+        path("/get_more_logo/:level") {
             get(::getMoreLogo)
         }
         // the player ask for the rules
@@ -40,6 +43,16 @@ fun main(list: Array<String>){
     }
 
     // configure the errors
-    serv.error(404) {ctx -> ctx.result("We don't find it, sorry <°)))<")}
     serv.error(403) {ctx -> forbidden(ctx)}
+    serv.error(404) {
+        ctx -> ctx.html(
+            // what is the best path to the source ?
+            Files.readAllLines(Paths.get("./src/main/resources/the_not_found_page.html")).joinToString(separator = "\n")
+        )
+    }
+    serv.error(500) {
+        ctx -> ctx.html(
+            Files.readAllLines(Paths.get("./src/main/resources/when_server_error_occur.html")).joinToString(separator = "\n")
+    )
+    }
 }
