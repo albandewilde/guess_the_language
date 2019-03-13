@@ -1,5 +1,3 @@
-package utils
-
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 
@@ -21,17 +19,17 @@ fun main(list: Array<String>){
             post({ctx -> ctx.status(403)})
         }
         // the player give us his pseudo
-        path("/subscribe_or_connect/:pseudo") {
+        path("/subscribe_or_connect") {
             get({ctx -> ctx.status(403)})
             put(::subscribeOrConnect)
         }
         // the player pass a level
-        path("/nextLevel/:Level") {
-            post{::nextLevel}
+        path("/pass_level/:new_level") {
+            post{::pass_level}
         }
         // the player ask for more logo
-        path("/getMoreLogo/:Level") {
-            get(::getMoreLogo)
+        path("/more_logo/:curent_level") {
+            get(::give_more_logo)
         }
         // the player ask for the rules
         path("/rules") {
