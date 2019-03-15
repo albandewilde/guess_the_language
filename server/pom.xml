@@ -3,6 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.intech.s5</groupId>
@@ -38,11 +45,17 @@
             <version>${kotlin.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>klaxon</artifactId>
+            <version>5.0.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <sourceDirectory>
-            ${project.basedir}/src/main/java
+            ${project.basedir}/src/main/kotlin
         </sourceDirectory>
 
         <testSourceDirectory>

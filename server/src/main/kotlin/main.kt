@@ -1,5 +1,6 @@
 package utils
 
+import io.javalin.ForbiddenResponse
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -29,7 +30,7 @@ fun main(){
             put(::subscribeOrConnect)
         }
         // the player pass a level
-        path("/next_level/:level") {
+        path("/next_level/:pseudo/:level") {
             post{::nextLevel}
         }
         // the player ask for more logo
@@ -43,16 +44,24 @@ fun main(){
     }
 
     // configure the errors
-    serv.error(403) {ctx -> forbidden(ctx)}
+    serv.error(400) {
+        ctx -> ctx.html(
+            {}.javaClass.getResource("/NOPE.HTML").readText()
+        )
+    }
+    serv.error(403) {
+        ctx -> ctx.html(
+            {}.javaClass.getResource("/what_the_fuck_are_you_trying_to_do.html").readText()
+        )
+    }
     serv.error(404) {
         ctx -> ctx.html(
-            // what is the best path to the source ?
-            Files.readAllLines(Paths.get("./src/main/resources/the_not_found_page.html")).joinToString(separator = "\n")
+            {}.javaClass.getResource("/the_not_found_page.html").readText()
         )
     }
     serv.error(500) {
         ctx -> ctx.html(
-            Files.readAllLines(Paths.get("./src/main/resources/when_server_error_occur.html")).joinToString(separator = "\n")
-    )
+            {}.javaClass.getResource("/when_server_error_occur.html").readText()
+        )
     }
 }

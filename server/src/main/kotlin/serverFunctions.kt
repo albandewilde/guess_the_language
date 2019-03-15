@@ -1,16 +1,26 @@
 package utils
 
+import com.beust.klaxon.Klaxon
 import io.javalin.Context
-import java.lang.Exception
+import org.eclipse.jetty.util.IO
+import utils.utils.Question
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
+import kotlin.math.min
+
+import utils.utils.QuestionList
+import java.io.IOException
+import java.lang.Error
+import java.nio.charset.Charset
+import java.util.*
 
 fun accueil(ctx: Context) {
 }
 
 fun forbidden(ctx: Context) {
     ctx.result("THIS IS FORBIDDEN !")
+    //²ctx.status(403)
 }
 
 fun subscribeOrConnect(ctx: Context) {
@@ -56,8 +66,8 @@ fun nextLevel(ctx: Context) {
         if (conn != null) {
 
             val regex = "^[0-9]+$".toRegex()
-            val newLevel = ctx.pathParam("Level")
-            val pseudo = ctx.queryParam("Pseudo")
+            val newLevel = ctx.pathParam("level")
+            val pseudo = ctx.pathParam("pseudo")
 
             if(!pseudo.isNullOrEmpty()){
                 var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
@@ -78,6 +88,55 @@ fun nextLevel(ctx: Context) {
 }
 
 fun getMoreLogo(ctx: Context) {
+    // the level of the player
+    val playerLevel: Int
+    try {
+        playerLevel = ctx.pathParam("level").toInt()
+        // throw error if the level is negative to call the invalid_level_function and
+        // don't write a second line where we call it
+        if (playerLevel < 0) throw Error()
+    } catch (e: Exception) {
+        // invalid level number is a bad request
+        return badRequest(ctx)
+    }
+
+    // get the json with all questions
+    var questionsToSend: List<Question> = listOf()
+    try {
+
+        val questions = {}.javaClass.getResource("/questions.json").readText()
+
+        val questionList = Klaxon().parse<QuestionList>(questions)?.questions
+        if (questionList == null) {
+            throw Exception();
+        }
+
+        // prepare the slice to send
+        val numberSend = min(NUMBER_QUESTION_SEND, questionList.size - playerLevel)
+        questionsToSend = questionList.slice(playerLevel..playerLevel + numberSend - 1)
+
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+    // prepare the images and change the path properties of each question because they go on the client device
+    for (question in questionsToSend) {
+        val pic: ByteArray
+        try {
+            pic = {}.javaClass.getResource(question.path).readBytes()
+        } catch (e: IOException) {
+            return //internalError(ctx)
+        }
+        val encodedPic = Base64.getEncoder().encode(pic)
+
+        question.path = encodedPic.toString()
+    }
+
+    // parse the list to a json
+    ctx.result(questionsToSend.toString())
+}
+
+fun badRequest(ctx: Context) {
+    ctx.status(400)
 }
 
 fun how_the_fuck_i_play_your_game(ctx: Context) {
