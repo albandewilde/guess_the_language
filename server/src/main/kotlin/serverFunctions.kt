@@ -5,6 +5,7 @@ import java.lang.Exception
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
+import java.util.*
 
 fun accueil(ctx: Context) {
 }
@@ -56,14 +57,18 @@ fun nextLevel(ctx: Context) {
         if (conn != null) {
 
             val regex = "^[0-9]+$".toRegex()
-            val newLevel = ctx.pathParam("Level")
-            val pseudo = ctx.queryParam("Pseudo")
+            val newLevel = ctx.pathParam("level")
+            val pseudo = ctx.pathParam("pseudo")
 
             if(!pseudo.isNullOrEmpty()){
-                var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
-                val insert = conn.prepareStatement(insertRequest)
-                insert.executeUpdate()
-                conn.close()
+                if(regex.matches(newLevel)){
+                    var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
+                    val insert = conn.prepareStatement(insertRequest)
+                    insert.executeUpdate()
+                    conn.close()
+                } else {
+                    //INCORRECT LEVEL
+                }
             } else {
                 //PSEUDO WAS NULL
             }
@@ -78,6 +83,14 @@ fun nextLevel(ctx: Context) {
 }
 
 fun getMoreLogo(ctx: Context) {
+}
+
+fun endGame(ctx: Context) {
+    val picture = {}.javaClass.getResource("/endGame.png").readBytes()
+
+    val encodedString = Base64.getEncoder().encode(picture)
+
+    ctx.result(encodedString.toString())
 }
 
 fun how_the_fuck_i_play_your_game(ctx: Context) {
