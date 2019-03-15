@@ -2,17 +2,14 @@ package utils
 
 import com.beust.klaxon.Klaxon
 import io.javalin.Context
-import org.eclipse.jetty.util.IO
 import utils.utils.Question
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import kotlin.math.min
-
 import utils.utils.QuestionList
 import java.io.IOException
 import java.lang.Error
-import java.nio.charset.Charset
 import java.util.*
 
 fun accueil(ctx: Context) {
@@ -70,10 +67,14 @@ fun nextLevel(ctx: Context) {
             val pseudo = ctx.pathParam("pseudo")
 
             if(!pseudo.isNullOrEmpty()){
-                var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
-                val insert = conn.prepareStatement(insertRequest)
-                insert.executeUpdate()
-                conn.close()
+                if(regex.matches(newLevel)){
+                    var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
+                    val insert = conn.prepareStatement(insertRequest)
+                    insert.executeUpdate()
+                    conn.close()
+                } else {
+                    //INCORRECT LEVEL
+                }
             } else {
                 //PSEUDO WAS NULL
             }
@@ -124,7 +125,7 @@ fun getMoreLogo(ctx: Context) {
         try {
             pic = {}.javaClass.getResource(question.path).readBytes()
         } catch (e: IOException) {
-            return //internalError(ctx)
+            return internalError(ctx)
         }
         val encodedPic = Base64.getEncoder().encode(pic)
 
@@ -137,6 +138,14 @@ fun getMoreLogo(ctx: Context) {
 
 fun badRequest(ctx: Context) {
     ctx.status(400)
+}
+
+fun endGame(ctx: Context) {
+    val picture = {}.javaClass.getResource("/endGame.png").readBytes()
+
+    val encodedString = Base64.getEncoder().encode(picture)
+
+    ctx.result(encodedString.toString())
 }
 
 fun how_the_fuck_i_play_your_game(ctx: Context) {

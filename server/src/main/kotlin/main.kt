@@ -41,6 +41,9 @@ fun main(){
         path("/rules") {
             get(::how_the_fuck_i_play_your_game)
         }
+        path("/end_game"){
+            get(::endGame)
+        }
     }
 
     // configure the errors

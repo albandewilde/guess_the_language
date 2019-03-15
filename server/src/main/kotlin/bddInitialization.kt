@@ -4,12 +4,12 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 fun main(list : List<String>) {
-    initBdd();
+    initBdd()
 }
 
 fun initBdd() {
 
-    val url = utils.BDD_URL;
+    val url = utils.BDD_URL
 
     try {
         var conn: Connection? = DriverManager.getConnection(url)
