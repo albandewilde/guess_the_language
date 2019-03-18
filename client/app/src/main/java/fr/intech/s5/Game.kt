@@ -19,10 +19,6 @@ class Game: Activity() {
         var pseudo = intent.getStringExtra("Pseudo")
         setContentView(R.layout.game_activity)
 
-        var displayPseudo : TextView = findViewById(R.id.pseudoDisplay)
-        var displayLevel : TextView = findViewById(R.id.levelDisplay)
-        var displayPoints : TextView = findViewById(R.id.pointsDisplay)
-
         val ipServer = utils.IP_SERVER
         val url = ipServer + "subscribe_or_connect/$pseudo"
 
@@ -41,16 +37,29 @@ class Game: Activity() {
             override fun onResponse(call: Call, response: Response) {
                 val user = Klaxon().parse<UserInfos>(response.body()!!.string())
                 Log.i("erreur", user.toString())
+
+                runOnUiThread(Runnable {
+                    updateUserInfos(user)
+                })
             }
 
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
         })
+    }
 
-        if(!pseudo.isNullOrEmpty()) {
-            displayPseudo.setText("Pseudo : " + pseudo)
-            println(resp.toString())
-        }
+    fun updateUserInfos(user: UserInfos?) {
+        var displayPseudo : TextView = findViewById(R.id.pseudoDisplay)
+        var displayLevel : TextView = findViewById(R.id.levelDisplay)
+        var displayPoints : TextView = findViewById(R.id.pointsDisplay)
+
+        var pseudo = "Pseudo : " + user?.pseudo
+        var level = "Level : " + user?.level
+        var points = "Points : " + user?.points
+
+        displayPseudo.setText(pseudo)
+        displayLevel.setText(level)
+        displayPoints.setText(points)
     }
 }

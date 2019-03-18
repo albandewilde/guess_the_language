@@ -4,10 +4,10 @@ import com.beust.klaxon.Klaxon
 import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.dao.DaoManager
 import com.j256.ormlite.jdbc.JdbcConnectionSource
-import com.j256.ormlite.stmt.PreparedQuery
+
 import io.javalin.Context
 import io.javalin.InternalServerErrorResponse
-import sun.security.util.BitArray
+
 import utils.utils.Question
 import java.sql.Connection
 import java.sql.DriverManager
