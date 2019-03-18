@@ -1,33 +1,27 @@
 package utils
 
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource
 import java.sql.Connection
 import java.sql.DriverManager
+import com.j256.ormlite.jdbc.JdbcConnectionSource
+import com.j256.ormlite.table.TableUtils
+import java.sql.PreparedStatement
+import java.sql.SQLException
 
-fun main(list : List<String>) {
+fun main(list: List<String>) {
     initBdd()
 }
 
 fun initBdd() {
-
-    val url = utils.BDD_URL
-
     try {
-        var conn: Connection? = DriverManager.getConnection(url)
+        var source : ConnectionSource = JdbcConnectionSource(utils.BDD_URL)
 
-        if (conn != null) {
-
-            var createTableReq = "CREATE IF NOT EXISTS users(\n" +
-                    "id integer PRIMARY KEY AUTOINCREMENT, \n" +
-                    "pseudo varchar(35) UNIQUE, \n" +
-                    "level integer DEFAULT 0, \n" +
-                    "points integer DEFAULT 0 \n" +
-                    ");"
-
-            var createTable = conn.prepareStatement(createTableReq)
-
-            createTable.executeUpdate()
-
-            conn.close()
+        try {
+            TableUtils.createTableIfNotExists(source, Users::class.java)
+        } catch (e: SQLException) {
+            e.printStackTrace()
         }
     } catch(e : Exception) {
         e.printStackTrace()

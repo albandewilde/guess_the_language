@@ -1,13 +1,11 @@
 package utils
 
-import io.javalin.ForbiddenResponse
-import java.nio.file.Files
-import java.nio.file.Paths
-
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 
 fun main(){
+
+    initBdd()
 
     val serv = Javalin.create()
         // all static request point to the `project_folder`/src/main/resources/public folder
