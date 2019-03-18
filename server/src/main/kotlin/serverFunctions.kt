@@ -1,13 +1,15 @@
 package utils
 
 import com.beust.klaxon.Klaxon
+import com.j256.ormlite.dao.Dao
+import com.j256.ormlite.dao.DaoManager
+import com.j256.ormlite.jdbc.JdbcConnectionSource
 import io.javalin.Context
 import io.javalin.InternalServerErrorResponse
 import sun.security.util.BitArray
 import utils.utils.Question
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.ResultSet
 import kotlin.math.min
 import utils.utils.QuestionList
 import utils.utils.ThingToSend
@@ -28,33 +30,31 @@ fun subscribeOrConnect(ctx: Context) {
         var conn: Connection? = DriverManager.getConnection(utils.BDD_URL)
 
         if (conn != null) {
+            val source = JdbcConnectionSource(utils.BDD_URL)
+
             var regex = "^[a-zA-Z0-9_]+$".toRegex()
             val pseudo = ctx.pathParam("pseudo")
 
-            var exists : Boolean?
-            var selectRequest = "SELECT * FROM users WHERE pseudo = $pseudo"
-            val select = conn.createStatement()
-            var result : ResultSet = select.executeQuery(selectRequest)
+            try {
+                var userDAO: Dao<Users, String>  = DaoManager.createDao(source, Users::class.java)
 
-            if(!result.wasNull()){
-                if(regex.matches(pseudo)) {
+                if (regex.matches(pseudo)) {
+                    var user = Users()
+                    user.pseudo = pseudo
+                    userDAO.createIfNotExists(user)
 
-                    var insertRequest = "INSERT OR IGNORE INTO users(pseudo) VALUES($pseudo)"
-                    val insert = conn.prepareStatement(insertRequest)
-                    insert.executeUpdate()
                     conn.close()
-
                 } else {
-                    //WRONG PSEUDO
+                    conn.close()
+                    badRequest(ctx)
                 }
-            } else {
-                conn.close()
-                //ALREADY EXISTS
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         } else {
-            //CONNECTION FAILED
+            internalError(ctx)
         }
-    } catch(e : Exception) {
+    } catch (e : Exception) {
         e.printStackTrace()
     }
 }
@@ -64,7 +64,6 @@ fun nextLevel(ctx: Context) {
         var conn: Connection? = DriverManager.getConnection(utils.BDD_URL)
 
         if (conn != null) {
-
             val regex = "^[0-9]+$".toRegex()
             val newLevel = ctx.pathParam("level")
             val pseudo = ctx.pathParam("pseudo")
@@ -76,14 +75,13 @@ fun nextLevel(ctx: Context) {
                     insert.executeUpdate()
                     conn.close()
                 } else {
-                    //INCORRECT LEVEL
+                    badRequest(ctx)
                 }
             } else {
-                //PSEUDO WAS NULL
+                badRequest(ctx)
             }
-
         } else {
-            //CONNECTION FAILED
+            internalError(ctx)
         }
 
     } catch(e : Exception) {
@@ -155,4 +153,8 @@ fun endGame(ctx: Context) {
 }
 
 fun how_the_fuck_i_play_your_game(ctx: Context) {
+}
+
+fun internalError(ctx: Context) {
+    ctx.status(500)
 }
