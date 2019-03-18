@@ -8,8 +8,8 @@ A chaque question, 1 logo et 4 propositions s'offrent à vous. Il est impératif
 ---
 ## Credit
 ### Developpeurs
-Arthur Cheng: [acheng@intechinfo.fr](acheng@intechinfo.fr)
+Arthur Cheng: [acheng@intechinfo.fr](mailto:acheng@intechinfo.fr)
 
-Alban De Wilde: [dewilde@intechinfo.fr](dewilde@intechinfo.fr)
+Alban De Wilde: [dewilde@intechinfo.fr](mailto:dewilde@intechinfo.fr)
 ### Un conseil
 Prenez soin des pastèques.
