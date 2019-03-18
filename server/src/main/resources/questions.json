@@ -1,155 +1,155 @@
 {
-    "authors": ["Alban", "Arthur"],
-    "questions": [
-		{
-            "path": "../resources/logos/php_logo.png",
-            "choices": ["C#", "PHP", "Java", "Program Hyper Polymorphe"],
-            "response_idx": 1
-        },
-        {
-            "path": "../resources/logos/lua_logo.png",
-            "choices": ["Lua", "Lumens United of Alabama", "#/ç$", "PHP"],
-            "response_idx": 0
-        },
-        {
-            "path": "../resources/logos/cpp_logo.png",
-            "choices": ["C", "Q++", "C++", "G++"],
-            "response_idx": 2
-        },
-        {
-            "path": "../resources/logos/groovy_logo.png",
-            "choices": ["Krooked", "Groovy", "Lisp", "Swift"],
-            "response_idx": 3
-        },
-        {
-            "path": "../resources/logos/nodejs_logo.png",
-            "choices": ["JavaScript", "neud", "Lisp", "nodeJS"],
-            "response_idx": 3
-        },
-        { 
-            "path": "../resources/logos/csharp_logo.png",
-            "choices": ["C#", "O#", "G#", "OCaml"],
-            "response_idx": 0
-        },
-        {
-            "path": "../resources/logos/perl_logo.png",
-            "choices": ["Perle", "Perl", "Pairle", "Peurle"],
-            "response_idx": 1
-        },
-        {
-             "path": "../resources/logos/javascript_logo.png",
-             "choices": ["JavaScript", "Java", "JavlinScripted", "JSon"],
-             "responses_idx": 0
-        },
-        {
-             "path": "../resources/logos/python_logo.png",
-             "choices": ["Serpent", "Snakes", "Python", "Viper"],
-             "responses_idx": 2
-        },
-        {
-             "path": "../resources/logos/swift_logo.png",
-             "choices": ["Twitter", "Bird", "Shift", "Swift"],
-             "responses_idx": 3
-        },
-        {
-             "path": "../resources/logos/java_logo.png",
-             "choices": ["Javascript", "CoffeeCup", "Java", "JQuery"],
-             "responses_idx": 2
-        },
-        {
-             "path": "../resources/logos/ruby_logo.png",
-             "choices": ["Ruby", "Diamond", "Saphir", "Emerald"],
-             "responses_idx": 0
-        },
-        {
-             "path": "../resources/logos/ocaml_logo.png",
-             "choices": ["Camel", "Ocamel", "Oklm", "OCaml"],
-             "responses_idx": 3
-        },
-        {
-             "path": "../resources/logos/typescript_logo.png",
-             "choices": ["TypeScript", "TeamScripted", "TimesScript", "TeamSpeak"],
-             "responses_idx": 0
-        },
-        {
-             "path": "../resources/logos/kotlin_logo.png",
-             "choices": ["Kpop", "Ketlin", "Kadok", "Kotlin"],
-             "responses_idx": 3
-        },
-        {
-             "path": "../resources/logos/ecmascript_logo.png",
-             "choices": ["EssentielScript", "EssemblieScript", "ECMAScript", "ExtSrc"],
-             "responses_idx": 2
-        },
-         {
-             "path": "../resources/logos/scala_logo.png",
-             "choices": ["Slides", "Scala", "Escalier", "Sakamaird"],
-             "responses_idx": 1
-        },
-        {
-             "path": "../resources/logos/bash_logo.png",
-             "choices": ["Bash", "Bach", "Dash", "Prompt"],
-             "responses_idx": 1
-        },
-        {
-             "path": "../resources/logos/r_logo.png",
-             "choices": ["Rust", "Rave", "R", "Ruby"],
-             "responses_idx": 2
-        },
-        {
-             "path": "../resources/logos/rust_logo.png",
-             "choices": ["Rust", "R", "Rave", "Ruby"],
-             "responses_idx": 0
-        },
-        {
-             "path": "../resources/logos/go_logo.png",
-             "choices": ["Good", "Go", "Hamster", "F#"],
-             "responses_idx": 1
-        },
-        {
-             "path": "../resources/logos/lisp_logo.png",
-             "choices": ["YingYang", "Lisp", "B&W", "Liste"],
-             "responses_idx": 1
-        },
-        {
-             "path": "../resources/logos/jsfuck_logo.png",
-             "choices": ["brokenJS", "BrainFuck", "JSfuck", "[]+!"],
-             "responses_idx": 2
-        },
-        {
-             "path": "../resources/logos/lolcode_logo.png",
-             "choices": ["CatCode", "SquareCode", "MausCode", "Lolcode"],
-             "responses_idx": 3
-        },
-        {
-             "path": "../resources/logos/dart_logo.png",
-             "choices": ["Dart", "Arrow", "Cubes", "Clojure"],
-             "responses_idx": 0
-        },
-        {
-             "path": "../resources/logos/haskell_logo.png",
-             "choices": ["Axel", "Haskel", "Haskell", "Hsakell"],
-             "responses_idx": 2
-        },
-        {
-             "path": "../resources/logos/fshafp_logo.png",
-             "choices": ["F#", "F++", "F", "F-ASM"],
-             "responses_idx": 0
-        },
-        {
-             "path": "../resources/logos/eiffel_logo.png",
-             "choices": ["CodeGraph", "GraphCode", "Bulding", "Eiffel"],
-             "responses_idx": 3
-        },
-        {
-             "path": "../resources/logos/clojure_logo.png",
-             "choices": ["Lambda", "Clojure", "Project Lambda", "Half-Life"],
-             "responses_idx": 1
-        },
-        {
-            "path": "../resources/logo/julia_logo.png",
-            "choices": ["mkdir", "ColorCode", "Julia", "DOT 3"],
-            "response_idx": 2
-        }
-    ]
+  "authors": ["Alban", "Arthur"],
+  "questions": [
+    {
+      "path": "/logos/php_logo.png",
+      "choices": ["C#", "PHP", "Java", "Program Hyper Polymorphe"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/lua_logo.png",
+      "choices": ["Lua", "Lumens United of Alabama", "#/ç$", "PHP"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/cpp_logo.png",
+      "choices": ["C", "Q++", "C++", "G++"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/groovy_logo.png",
+      "choices": ["Krooked", "Groovy", "Lisp", "Swift"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/nodejs_logo.png",
+      "choices": ["JavaScript", "neud", "Lisp", "nodeJS"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/csharp_logo.png",
+      "choices": ["C#", "O#", "G#", "OCaml"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/perl_logo.png",
+      "choices": ["Perle", "Perl", "Pairle", "Peurle"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/javascript_logo.png",
+      "choices": ["JavaScript", "Java", "JavlinScripted", "JSon"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/python_logo.png",
+      "choices": ["Serpent", "Snakes", "Python", "Viper"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/swift_logo.png",
+      "choices": ["Twitter", "Bird", "Shift", "Swift"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/java_logo.png",
+      "choices": ["Javascript", "CoffeeCup", "Java", "JQuery"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/ruby_logo.png",
+      "choices": ["Ruby", "Diamond", "Saphir", "Emerald"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/ocaml_logo.png",
+      "choices": ["Camel", "Ocamel", "Oklm", "OCaml"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/typescript_logo.png",
+      "choices": ["TypeScript", "TeamScripted", "TimesScript", "TeamSpeak"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/kotlin_logo.png",
+      "choices": ["Kpop", "Ketlin", "Kadok", "Kotlin"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/ecmascript_logo.png",
+      "choices": ["EssentielScript", "EssemblieScript", "ECMAScript", "ExtSrc"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/scala_logo.png",
+      "choices": ["Slides", "Scala", "Escalier", "Sakamaird"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/bash_logo.png",
+      "choices": ["Bash", "Bach", "Dash", "Prompt"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/r_logo.png",
+      "choices": ["Rust", "Rave", "R", "Ruby"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/rust_logo.png",
+      "choices": ["Rust", "R", "Rave", "Ruby"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/go_logo.png",
+      "choices": ["Good", "Go", "Hamster", "F#"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/lisp_logo.png",
+      "choices": ["YingYang", "Lisp", "B&W", "Liste"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/jsfuck_logo.png",
+      "choices": ["brokenJS", "BrainFuck", "JSfuck", "[]+!"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/lolcode_logo.png",
+      "choices": ["CatCode", "SquareCode", "MausCode", "Lolcode"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/dart_logo.png",
+      "choices": ["Dart", "Arrow", "Cubes", "Clojure"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/haskell_logo.png",
+      "choices": ["Axel", "Haskel", "Haskell", "Hsakell"],
+      "response_idx": 2
+    },
+    {
+      "path": "/logos/fshafp_logo.png",
+      "choices": ["F#", "F++", "F", "F-ASM"],
+      "response_idx": 0
+    },
+    {
+      "path": "/logos/eiffel_logo.png",
+      "choices": ["CodeGraph", "GraphCode", "Bulding", "Eiffel"],
+      "response_idx": 3
+    },
+    {
+      "path": "/logos/clojure_logo.png",
+      "choices": ["Lambda", "Clojure", "Project Lambda", "Half-Life"],
+      "response_idx": 1
+    },
+    {
+      "path": "/logos/julia_logo.png",
+      "choices": ["mkdir", "ColorCode", "Julia", "DOT 3"],
+      "response_idx": 2
+    }
+  ]
 }
