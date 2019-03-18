@@ -2,12 +2,15 @@ package utils
 
 import com.beust.klaxon.Klaxon
 import io.javalin.Context
+import io.javalin.InternalServerErrorResponse
+import sun.security.util.BitArray
 import utils.utils.Question
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import kotlin.math.min
 import utils.utils.QuestionList
+import utils.utils.ThingToSend
 import java.io.IOException
 import java.lang.Error
 import java.util.*
@@ -113,8 +116,14 @@ fun getMoreLogo(ctx: Context) {
         }
 
         // prepare the slice to send
-        val numberSend = min(NUMBER_QUESTION_SEND, questionList.size - playerLevel)
-        questionsToSend = questionList.slice(playerLevel..playerLevel + numberSend - 1)
+        if (playerLevel >= questionList.size) {
+            // the player have reatch the highest level, we don"t have other logos to send him
+            return endGame(ctx)
+        } else {
+            // the player can have more logo
+            val numberSend = min(NUMBER_QUESTION_SEND, questionList.size - playerLevel)
+            questionsToSend = questionList.slice(playerLevel..playerLevel + numberSend - 1)
+        }
 
     } catch (e: IOException) {
         e.printStackTrace()
@@ -125,7 +134,7 @@ fun getMoreLogo(ctx: Context) {
         try {
             pic = {}.javaClass.getResource(question.path).readBytes()
         } catch (e: IOException) {
-            return internalError(ctx)
+            throw InternalServerErrorResponse()
         }
         val encodedPic = Base64.getEncoder().encode(pic)
 
@@ -133,7 +142,7 @@ fun getMoreLogo(ctx: Context) {
     }
 
     // parse the list to a json
-    ctx.result(questionsToSend.toString())
+    ctx.result(Klaxon().toJsonString(ThingToSend(false, questionsToSend)))
 }
 
 fun badRequest(ctx: Context) {
@@ -141,11 +150,8 @@ fun badRequest(ctx: Context) {
 }
 
 fun endGame(ctx: Context) {
-    val picture = {}.javaClass.getResource("/endGame.png").readBytes()
-
-    val encodedString = Base64.getEncoder().encode(picture)
-
-    ctx.result(encodedString.toString())
+    var picture = Base64.getEncoder().encode({}.javaClass.getResource("/endGame.png").readBytes()).toString()
+    ctx.result(Klaxon().toJsonString(ThingToSend(true, picture)))
 }
 
 fun how_the_fuck_i_play_your_game(ctx: Context) {
