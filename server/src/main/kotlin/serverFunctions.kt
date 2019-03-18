@@ -4,6 +4,7 @@ import com.beust.klaxon.Klaxon
 import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.dao.DaoManager
 import com.j256.ormlite.jdbc.JdbcConnectionSource
+import com.j256.ormlite.stmt.PreparedQuery
 import io.javalin.Context
 import io.javalin.InternalServerErrorResponse
 import sun.security.util.BitArray
@@ -31,21 +32,30 @@ fun subscribeOrConnect(ctx: Context) {
 
         if (conn != null) {
             val source = JdbcConnectionSource(utils.BDD_URL)
-
             var regex = "^[a-zA-Z0-9_]+$".toRegex()
             val pseudo = ctx.pathParam("pseudo")
 
-            try {
-                var userDAO: Dao<Users, String>  = DaoManager.createDao(source, Users::class.java)
+            var userDao: Dao<Users, String>  = DaoManager.createDao(source, Users::class.java)
 
+            try {
                 if (regex.matches(pseudo)) {
+                    // instanciate user and set user's pseudo
                     var user = Users()
                     user.pseudo = pseudo
-                    userDAO.createIfNotExists(user)
+                    //insert user into users Table if not exists
+                    userDao.createIfNotExists(user)
 
-                    conn.close()
+                    // get the user infos
+                    var query = userDao.queryBuilder()
+                            .where()
+                            .eq("pseudo", pseudo)
+                            .prepare()
+
+                    user = userDao.queryForFirst(query)
+
+                    ctx.result(Klaxon().toJsonString(user))
+
                 } else {
-                    conn.close()
                     badRequest(ctx)
                 }
             } catch (e: Exception) {

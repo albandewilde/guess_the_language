@@ -1,5 +1,6 @@
 package utils
 
+import io.javalin.Context
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 
@@ -13,6 +14,8 @@ fun main(){
         // the server search in the public folder if your resource is present,
         // if not, you got a 404 page
         .enableStaticFiles("/public")
+        // add logger
+        .requestLogger({ctx: Context, timeMs -> println("${ctx.method()} ${ctx.path()} ${ctx.queryString()}")})
         // the server listen on port 7000
         .start(7000)
 

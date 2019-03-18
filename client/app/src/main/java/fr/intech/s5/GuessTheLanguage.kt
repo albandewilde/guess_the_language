@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.security.NetworkSecurityPolicy
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
