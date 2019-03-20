@@ -10,7 +10,7 @@ import okhttp3.*
 import utils.UserInfos
 import java.io.IOException
 import okhttp3.OkHttpClient
-
+import utils.QuestionsList
 
 
 class Game: Activity() {
@@ -20,23 +20,40 @@ class Game: Activity() {
         setContentView(R.layout.game_activity)
 
         val ipServer = utils.IP_SERVER
-        val url = ipServer + "subscribe_or_connect/$pseudo"
 
+        val userRequestUrl = ipServer + "subscribe_or_connect/$pseudo"
         val requestBody = MultipartBody.Builder()
             .addFormDataPart("pseudo", pseudo)
             .build()
 
         var httpClient = OkHttpClient()
 
-        var request = Request.Builder()
-            .url(url)
+        var userRequest = Request.Builder()
+            .url(userRequestUrl)
             .put(requestBody)
             .build()
 
-        var resp = httpClient.newCall(request).enqueue(object: Callback {
+        var resp = httpClient.newCall(userRequest).enqueue(object: Callback {
             override fun onResponse(call: Call, response: Response) {
                 val user = Klaxon().parse<UserInfos>(response.body()!!.string())
                 Log.i("erreur", user.toString())
+
+                val logosRequestUrl = ipServer + "get_more_logo/${user!!.level}"
+
+                var logosRequest = Request.Builder()
+                    .url(logosRequestUrl)
+                    .get()
+                    .build()
+
+                var response = httpClient.newCall(logosRequest).enqueue(object: Callback {
+                    override fun onResponse(call: Call, response: Response) {
+                        val questions = Klaxon().parse<QuestionsList>(response.body()!!.string())
+                    }
+
+                    override fun onFailure(call: Call, e: IOException) {
+
+                    }
+                })
 
                 runOnUiThread(Runnable {
                     updateUserInfos(user)
