@@ -1,3 +1,11 @@
 package utils
 
-data class UserInfos(var pseudo: String, var level: Int, var points: Int)
+import com.beust.klaxon.Json
+
+data class UserInfos(
+    @Json(ignored = true)
+    var currentQuestion: Int,
+    var level: Int,
+    var points: Int,
+    var pseudo: String
+)

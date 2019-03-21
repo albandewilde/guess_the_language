@@ -39,7 +39,7 @@ fun subscribeOrConnect(ctx: Context) {
 
             try {
                 if (regex.matches(pseudo)) {
-                    // instanciate user and set user's pseudo
+                    // instantiate user and set user's pseudo
                     var user = Users()
                     user.pseudo = pseudo
                     //insert user into users Table if not exists
@@ -54,7 +54,7 @@ fun subscribeOrConnect(ctx: Context) {
                     user = userDao.queryForFirst(query)
 
                     ctx.result(Klaxon().toJsonString(user))
-
+                    println(Klaxon().toJsonString(user))
                 } else {
                     badRequest(ctx)
                 }

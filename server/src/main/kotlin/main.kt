@@ -15,7 +15,7 @@ fun main(){
         // if not, you got a 404 page
         .enableStaticFiles("/public")
         // add logger
-        .requestLogger({ctx: Context, timeMs -> println("${ctx.method()} ${ctx.path()} ${ctx.queryString()}")})
+        .requestLogger({ctx: Context, timeMs -> println("${ctx.method()} ${ctx.path()}")})
         // the server listen on port 7000
         .start(7000)
 
