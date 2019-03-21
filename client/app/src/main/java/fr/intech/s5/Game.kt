@@ -17,9 +17,7 @@ import utils.UserInfos
 import java.io.IOException
 import okhttp3.OkHttpClient
 import utils.QuestionsList
-import com.facebook.stetho.json.ObjectMapper
 import com.google.gson.Gson
-import utils.Question
 
 class Game: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +45,6 @@ class Game: Activity() {
                 var gson = Gson()
                 var user = gson?.fromJson(response.body()!!.string(), UserInfos::class.java)
 
-                //val user: UserInfos = Klaxon().parse<UserInfos>(response.body()!!.string())!!
-
                 val logosRequestUrl = ipServer + "get_more_logo/${user!!.level}"
 
                 var logosRequest = Request.Builder()
@@ -58,7 +54,6 @@ class Game: Activity() {
 
                 var response = httpClient.newCall(logosRequest).enqueue(object: Callback {
                     override fun onResponse(call: Call, response: Response) {
-                        //val questions = Klaxon().parse<QuestionsList>(response.body()!!.string())
                         var gson = Gson()
                         var questions = gson?.fromJson(response.body()!!.string(), QuestionsList::class.java)
 
@@ -113,11 +108,13 @@ class Game: Activity() {
 
         for((index, button) in answers.withIndex()) {
             button.setText(questions!!.content[currentIndex].choices[index])
+            button.setBackgroundColor(Color.WHITE)
+
             if(questions!!.content[currentIndex].response_idx == index) {
                 button.setOnClickListener(
                     View.OnClickListener {
                         goodAnswer(user, questions)
-            }
+                    }
                 )
             } else {
                 button.setOnClickListener(
@@ -130,9 +127,7 @@ class Game: Activity() {
     }
 
     fun decodeImage(data: String): Bitmap{
-
-        val test = data.toByteArray()
-        val decodedString = Base64.decode(test, Base64.DEFAULT)
+        val decodedString = Base64.decode(data, Base64.DEFAULT)
 
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }

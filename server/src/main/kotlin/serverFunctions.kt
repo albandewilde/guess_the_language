@@ -144,9 +144,9 @@ fun getMoreLogo(ctx: Context) {
         } catch (e: IOException) {
             throw InternalServerErrorResponse()
         }
-        val encodedPic = Base64.getEncoder().encode(pic)
+        val encodedPic = Base64.getEncoder().encodeToString(pic)
 
-        question.path = encodedPic.toString()
+        question.path = encodedPic
     }
 
     // parse the list to a json
