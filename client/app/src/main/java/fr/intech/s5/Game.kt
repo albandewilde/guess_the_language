@@ -1,6 +1,7 @@
 package fr.intech.s5
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -18,6 +19,7 @@ import java.io.IOException
 import okhttp3.OkHttpClient
 import utils.QuestionsList
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.main_activity.*
 
 class Game: Activity() {
     var test = false
@@ -54,32 +56,35 @@ class Game: Activity() {
                 var gson = Gson()
                 var user = gson?.fromJson(response.body()!!.string(), UserInfos::class.java)
 
-                val logosRequestUrl = ipServer + "get_more_logo/${user!!.level}"
+                if(user.level >= 30) endGame()
+                else {
+                    val logosRequestUrl = ipServer + "get_more_logo/${user!!.level}"
 
-                var logosRequest = Request.Builder()
-                    .url(logosRequestUrl)
-                    .get()
-                    .build()
+                    var logosRequest = Request.Builder()
+                        .url(logosRequestUrl)
+                        .get()
+                        .build()
 
-                var response = httpClient.newCall(logosRequest).enqueue(object: Callback {
-                    override fun onResponse(call: Call, response: Response) {
-                        var gson = Gson()
-                        var questions = gson?.fromJson(response.body()!!.string(), QuestionsList::class.java)
+                    var response = httpClient.newCall(logosRequest).enqueue(object: Callback {
+                        override fun onResponse(call: Call, response: Response) {
+                            var gson = Gson()
+                            var questions = gson?.fromJson(response.body()!!.string(), QuestionsList::class.java)
 
-                        user.currentQuestion = 0
+                            user.currentQuestion = 0
 
-                        runOnUiThread(Runnable {
-                            updateUserInfos(user)
-                            displayQuestion(questions, user, answers)
-                        })
-                    }
+                            runOnUiThread(Runnable {
+                                updateUserInfos(user)
+                                displayQuestion(questions, user, answers)
+                            })
+                        }
 
-                    override fun onFailure(call: Call, e: IOException) {
-                        e.printStackTrace()
-                    }
-                })
+                        override fun onFailure(call: Call, e: IOException) {
+                            e.printStackTrace()
+                        }
+                    })
+                }
+
             }
-
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
             }
@@ -170,7 +175,10 @@ class Game: Activity() {
             }
         })
         updateUserInfos(user)
-        nextQuestions(questions, user, answers)
+        if(user.level < 30) nextQuestions(questions, user, answers)
+        else {
+            endGame()
+        }
     }
 
     fun wrongAnswer(user: UserInfos, button: Button, questions: QuestionsList, answers: MutableList<Button>) {
@@ -237,5 +245,12 @@ class Game: Activity() {
         } else {
             displayQuestion(questions, user, answers)
         }
+    }
+
+    fun endGame() {
+        val intent = Intent(this, End::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent)
+        finish()
     }
 }

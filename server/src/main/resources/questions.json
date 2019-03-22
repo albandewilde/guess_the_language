@@ -129,10 +129,10 @@
     {
       "path": "/logos/haskell_logo.png",
       "choices": ["Axel", "Haskel", "Haskell", "Hsakell"],
-      "response_idx": 2
+      "response_idx": 1
     },
     {
-      "path": "/logos/fshafp_logo.png",
+      "path": "/logos/fsharp_logo.png",
       "choices": ["F#", "F++", "F", "F-ASM"],
       "response_idx": 0
     },

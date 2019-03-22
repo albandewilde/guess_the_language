@@ -24,5 +24,8 @@
         <activity android:name=".Rules">
 
         </activity>
+        <activity android:name=".End">
+
+        </activity>
     </application>
 </manifest>

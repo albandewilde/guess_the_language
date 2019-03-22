@@ -192,7 +192,7 @@ fun badRequest(ctx: Context) {
 }
 
 fun endGame(ctx: Context) {
-    var picture = Base64.getEncoder().encode({}.javaClass.getResource("/endGame.png").readBytes()).toString()
+    var picture = Base64.getEncoder().encodeToString({}.javaClass.getResource("/endGame.png").readBytes())
     ctx.result(Klaxon().toJsonString(ThingToSend(true, picture)))
 }
 
