@@ -20,10 +20,19 @@ import utils.QuestionsList
 import com.google.gson.Gson
 
 class Game: Activity() {
+    var test = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var pseudo = intent.getStringExtra("Pseudo")
         setContentView(R.layout.game_activity)
+
+        var answer0: Button = findViewById(R.id.nb_0)
+        var answer1: Button = findViewById(R.id.nb_1)
+        var answer2: Button = findViewById(R.id.nb_2)
+        var answer3: Button = findViewById(R.id.nb_3)
+
+        var answers = mutableListOf(answer0, answer1, answer2, answer3)
 
         val ipServer = utils.IP_SERVER
 
@@ -61,7 +70,7 @@ class Game: Activity() {
 
                         runOnUiThread(Runnable {
                             updateUserInfos(user)
-                            displayQuestion(questions, user)
+                            displayQuestion(questions, user, answers)
                         })
                     }
 
@@ -91,7 +100,7 @@ class Game: Activity() {
         displayPoints.setText(points)
     }
 
-    fun displayQuestion(questions: QuestionsList?, user: UserInfos) {
+    fun displayQuestion(questions: QuestionsList?, user: UserInfos, answers: MutableList<Button>) {
         var currentIndex = user.currentQuestion
 
         var logo: ImageView = findViewById(R.id.langLogo)
@@ -99,27 +108,27 @@ class Game: Activity() {
 
         logo.setImageBitmap(bitmap)
 
-        var answer0: Button = findViewById(R.id.nb_0)
-        var answer1: Button = findViewById(R.id.nb_1)
-        var answer2: Button = findViewById(R.id.nb_2)
-        var answer3: Button = findViewById(R.id.nb_3)
-
-        var answers = mutableListOf(answer0, answer1, answer2, answer3)
+        if(test) {
+            for(button in answers) {
+                button.setBackgroundColor(Color.WHITE)
+            }
+        }
 
         for((index, button) in answers.withIndex()) {
-            button.setBackgroundColor(Color.WHITE)
             button.setText(questions!!.content[currentIndex].choices[index])
 
             if(questions!!.content[currentIndex].response_idx == index) {
                 button.setOnClickListener(
                     View.OnClickListener {
-                        goodAnswer(user, questions, button)
+                        goodAnswer(user, questions, answers, button)
+                        test = false
                     }
                 )
             } else {
                 button.setOnClickListener(
                     View.OnClickListener {
-                        wrongAnswer(user, button, questions)
+                        wrongAnswer(user, button, questions, answers)
+                        test = true
                     }
                 )
             }
@@ -132,7 +141,7 @@ class Game: Activity() {
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }
 
-    fun goodAnswer(user: UserInfos, questions: QuestionsList, button: Button) {
+    fun goodAnswer(user: UserInfos, questions: QuestionsList, answers: MutableList<Button>, button: Button) {
         user.currentQuestion += 1
         user.level += 1
         user.points += 5
@@ -160,12 +169,12 @@ class Game: Activity() {
                 e.printStackTrace()
             }
         })
-        button.setBackgroundColor(Color.GREEN)
         updateUserInfos(user)
-        nextQuestions(questions, user)
+        nextQuestions(questions, user, answers)
     }
 
-    fun wrongAnswer(user: UserInfos, button: Button, questions: QuestionsList) {
+    fun wrongAnswer(user: UserInfos, button: Button, questions: QuestionsList, answers: MutableList<Button>) {
+        button.setBackgroundColor(Color.RED)
         user.points -= 3
 
         var httpClient = OkHttpClient()
@@ -190,13 +199,11 @@ class Game: Activity() {
                 e.printStackTrace()
             }
         })
-        button.setBackgroundColor(Color.RED)
-
         updateUserInfos(user)
-        displayQuestion(questions, user)
+        displayQuestion(questions, user, answers)
     }
 
-    fun nextQuestions(questions: QuestionsList, user: UserInfos) {
+    fun nextQuestions(questions: QuestionsList, user: UserInfos, answers: MutableList<Button>) {
         var idx = user.currentQuestion
         var nbQuestions = questions.content.size
 
@@ -219,7 +226,7 @@ class Game: Activity() {
                     var questions = gson?.fromJson(response.body()!!.string(), QuestionsList::class.java)
 
                     runOnUiThread(Runnable {
-                        displayQuestion(questions, user)
+                        displayQuestion(questions, user, answers)
                     })
                 }
 
@@ -228,7 +235,7 @@ class Game: Activity() {
                 }
             })
         } else {
-            displayQuestion(questions, user)
+            displayQuestion(questions, user, answers)
         }
     }
 }
