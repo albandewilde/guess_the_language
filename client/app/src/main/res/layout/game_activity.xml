@@ -7,23 +7,28 @@
     android:layout_height="match_parent">
 
     <TextView
-            android:id="@+id/pseudoDisplay"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftof="@id/pointsDisplay"
-    />
-
-    <TextView
             android:id="@+id/pointsDisplay"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
 
-            app:layout_constraintLeft_toRightOf="@id/pseudoDisplay"
-            app:layout_constraintRight_toLeftOf="@id/levelDisplay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+    />
+
+    <TextView
+            android:id="@+id/pseudoDisplay"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+
+            app:layout_constraintRight_toLeftOf="@id/pointsDisplay"
+            app:layout_constraintLeft_toLeftOf="parent"
+
     />
 
     <TextView
@@ -31,6 +36,8 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
 
             app:layout_constraintLeft_toRightOf="@id/pointsDisplay"
             app:layout_constraintRight_toRightOf="parent"
@@ -51,12 +58,14 @@
             android:id="@+id/langLogo"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
 
-            app:layout_constaintLeft_toLeftOf="parent"
-            app:layout_constrintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/blkspce"
-     />
+            app:layout_constraintTop_toBottomOf="@+id/blkspce"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+    />
 
     <TextView
             android:id="@+id/blankspace"

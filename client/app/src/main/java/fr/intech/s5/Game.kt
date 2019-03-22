@@ -107,13 +107,13 @@ class Game: Activity() {
         var answers = mutableListOf(answer0, answer1, answer2, answer3)
 
         for((index, button) in answers.withIndex()) {
-            button.setText(questions!!.content[currentIndex].choices[index])
             button.setBackgroundColor(Color.WHITE)
+            button.setText(questions!!.content[currentIndex].choices[index])
 
             if(questions!!.content[currentIndex].response_idx == index) {
                 button.setOnClickListener(
                     View.OnClickListener {
-                        goodAnswer(user, questions)
+                        goodAnswer(user, questions, button)
                     }
                 )
             } else {
@@ -132,24 +132,26 @@ class Game: Activity() {
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }
 
-    fun goodAnswer(user: UserInfos, questions: QuestionsList) {
+    fun goodAnswer(user: UserInfos, questions: QuestionsList, button: Button) {
         user.currentQuestion += 1
+        user.level += 1
         user.points += 5
 
         var httpClient = OkHttpClient()
-        val nextLevelRequest = utils.IP_SERVER + "next_level/${user!!.pseudo}/${user!!.level}"
+        val nextLevelRequest = utils.IP_SERVER + "next_level/${user!!.pseudo}/${user!!.level}/${user!!.points}"
 
         val requestBody = MultipartBody.Builder()
             .addFormDataPart("pseudo", user.pseudo)
             .addFormDataPart("level", user.level.toString())
+            .addFormDataPart("points", user.points.toString())
             .build()
 
-        var logosRequest = Request.Builder()
+        var pointsRequest = Request.Builder()
             .url(nextLevelRequest)
             .post(requestBody)
             .build()
 
-        var response = httpClient.newCall(logosRequest).enqueue(object: Callback {
+        var response = httpClient.newCall(pointsRequest).enqueue(object: Callback {
             override fun onResponse(call: Call, response: Response) {
                 //it is a update request so we won't get any response
             }
@@ -158,13 +160,39 @@ class Game: Activity() {
                 e.printStackTrace()
             }
         })
-
+        button.setBackgroundColor(Color.GREEN)
+        updateUserInfos(user)
         nextQuestions(questions, user)
     }
 
     fun wrongAnswer(user: UserInfos, button: Button, questions: QuestionsList) {
-        user.points += 3
+        user.points -= 3
+
+        var httpClient = OkHttpClient()
+        val updateRequest = utils.IP_SERVER + "update_points/${user!!.pseudo}/${user!!.points}"
+
+        val requestBody = MultipartBody.Builder()
+            .addFormDataPart("pseudo", user.pseudo)
+            .addFormDataPart("points", user.points.toString())
+            .build()
+
+        var pointsRequest = Request.Builder()
+            .url(updateRequest)
+            .post(requestBody)
+            .build()
+
+        var response = httpClient.newCall(pointsRequest).enqueue(object: Callback {
+            override fun onResponse(call: Call, response: Response) {
+                //it is a update request so we won't get any response
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+        })
         button.setBackgroundColor(Color.RED)
+
+        updateUserInfos(user)
         displayQuestion(questions, user)
     }
 
@@ -187,8 +215,12 @@ class Game: Activity() {
 
             var response = httpClient.newCall(logosRequest).enqueue(object: Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val questions = Klaxon().parse<QuestionsList>(response.body()!!.string())
-                    displayQuestion(questions, user)
+                    var gson = Gson()
+                    var questions = gson?.fromJson(response.body()!!.string(), QuestionsList::class.java)
+
+                    runOnUiThread(Runnable {
+                        displayQuestion(questions, user)
+                    })
                 }
 
                 override fun onFailure(call: Call, e: IOException) {

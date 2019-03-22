@@ -31,8 +31,11 @@ fun main(){
             put(::subscribeOrConnect)
         }
         // the player pass a level
-        path("/next_level/:pseudo/:level") {
-            post{::nextLevel}
+        path("/next_level/:pseudo/:level/:points") {
+            post(::nextLevel)
+        }
+        path("/update_points/:pseudo/:points") {
+            post(::updatePoints)
         }
         // the player ask for more logo
         path("/get_more_logo/:level") {

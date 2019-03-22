@@ -72,21 +72,55 @@ fun subscribeOrConnect(ctx: Context) {
 fun nextLevel(ctx: Context) {
     try {
         var conn: Connection? = DriverManager.getConnection(utils.BDD_URL)
+        val source = JdbcConnectionSource(utils.BDD_URL)
+        var userDao: Dao<Users, String>  = DaoManager.createDao(source, Users::class.java)
 
         if (conn != null) {
-            val regex = "^[0-9]+$".toRegex()
-            val newLevel = ctx.pathParam("level")
             val pseudo = ctx.pathParam("pseudo")
+            val newLevel = ctx.pathParam("level").toInt()
+            var points = ctx.pathParam("points").toInt()
 
             if(!pseudo.isNullOrEmpty()){
-                if(regex.matches(newLevel)){
-                    var insertRequest = "UPDATE users SET level = $newLevel WHERE pseudo = $pseudo"
-                    val insert = conn.prepareStatement(insertRequest)
-                    insert.executeUpdate()
-                    conn.close()
-                } else {
-                    badRequest(ctx)
-                }
+
+                var insertRequest = "UPDATE users SET level = ?, points = ? WHERE pseudo = ?"
+                val insert = conn.prepareStatement(insertRequest)
+                insert.setInt(1, newLevel)
+                insert.setInt(2, points)
+                insert.setString(3, pseudo)
+                insert.executeUpdate()
+                conn.close()
+
+            } else {
+                badRequest(ctx)
+            }
+        } else {
+            internalError(ctx)
+        }
+
+    } catch(e : Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun updatePoints(ctx: Context) {
+    try {
+        var conn: Connection? = DriverManager.getConnection(utils.BDD_URL)
+        val source = JdbcConnectionSource(utils.BDD_URL)
+        var userDao: Dao<Users, String>  = DaoManager.createDao(source, Users::class.java)
+
+        if (conn != null) {
+            val pseudo = ctx.pathParam("pseudo")
+            var points = ctx.pathParam("points").toInt()
+
+            if(!pseudo.isNullOrEmpty()){
+
+                var insertRequest = "UPDATE users SET  points = ? WHERE pseudo = ?"
+                val insert = conn.prepareStatement(insertRequest)
+                insert.setInt(1, points)
+                insert.setString(2, pseudo)
+                insert.executeUpdate()
+                conn.close()
+
             } else {
                 badRequest(ctx)
             }

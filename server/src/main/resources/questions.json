@@ -8,7 +8,7 @@
     },
     {
       "path": "/logos/lua_logo.png",
-      "choices": ["Lua", "Lumens United of Alabama", "#/ç$", "PHP"],
+      "choices": ["Lua", "Lumens United of Alabama", "#/ï¿½$", "PHP"],
       "response_idx": 0
     },
     {
@@ -19,7 +19,7 @@
     {
       "path": "/logos/groovy_logo.png",
       "choices": ["Krooked", "Groovy", "Lisp", "Swift"],
-      "response_idx": 3
+      "response_idx": 1
     },
     {
       "path": "/logos/nodejs_logo.png",
@@ -89,7 +89,7 @@
     {
       "path": "/logos/bash_logo.png",
       "choices": ["Bash", "Bach", "Dash", "Prompt"],
-      "response_idx": 1
+      "response_idx": 0
     },
     {
       "path": "/logos/r_logo.png",
